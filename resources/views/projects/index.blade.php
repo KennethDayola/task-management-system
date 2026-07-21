@@ -19,7 +19,7 @@
                     + New Project
                 </a>
 
-                @if ($projects->isEmpty())
+                 @if ($projects->isEmpty())
                     <p>You don't have any projects yet.</p>
                 @else
                     <table class="w-full text-left border-collapse">
@@ -27,6 +27,7 @@
                             <tr class="border-b">
                                 <th class="py-2">Name</th>
                                 <th class="py-2">Status</th>
+                                <th class="py-2">Progress</th>
                                 <th class="py-2">Created</th>
                                 <th class="py-2">Actions</th>
                             </tr>
@@ -40,6 +41,12 @@
                                         </a>
                                     </td>
                                     <td class="py-2 capitalize">{{ $project->status }}</td>
+                                    <td class="py-2">
+                                        <div class="w-24 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: {{ $project->completionPercentage() }}%"></div>
+                                        </div>
+                                        <span class="text-xs text-gray-500">{{ $project->completionPercentage() }}%</span>
+                                    </td>
                                     <td class="py-2">{{ $project->created_at->format('M d, Y') }}</td>
                                     <td class="py-2 space-x-2">
                                         <a href="{{ route('projects.edit', $project) }}" class="text-yellow-600">Edit</a>
@@ -54,6 +61,10 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    <div class="mt-6">
+                        {{ $projects->links() }}
+                    </div>
                 @endif
 
             </div>

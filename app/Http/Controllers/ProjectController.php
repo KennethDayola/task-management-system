@@ -14,7 +14,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Auth::user()->projects()->latest()->get();
+        $projects = Auth::user()->projects()->latest()->paginate(10);
 
         return view('projects.index', compact('projects'));
     }
@@ -41,14 +41,15 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+   public function show(Project $project)
     {
         $this->authorize('view', $project);
 
         $tasks = $project->tasks()
             ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
+            ->when(request('search'), fn ($query, $search) => $query->where('title', 'like', "%{$search}%"))
             ->latest()
-            ->get();
+            ->paginate(5);
 
         return view('projects.show', compact('project', 'tasks'));
     }

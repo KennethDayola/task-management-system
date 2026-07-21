@@ -25,6 +25,11 @@ class Task extends Model
         ];
     }
 
+    public function isOverdue(): bool
+    {
+        return $this->due_date->isPast() && $this->status !== 'completed';
+    }
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

@@ -27,4 +27,17 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function completionPercentage(): int
+    {
+        $total = $this->tasks()->count();
+
+        if ($total === 0) {
+            return 0;
+        }
+
+        $completed = $this->tasks()->where('status', 'completed')->count();
+
+        return (int) round(($completed / $total) * 100);
+    }
 }

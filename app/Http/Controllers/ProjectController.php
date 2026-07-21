@@ -45,9 +45,12 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
-        $project->load('tasks');
+        $tasks = $project->tasks()
+            ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
+            ->latest()
+            ->get();
 
-        return view('projects.show', compact('project'));
+        return view('projects.show', compact('project', 'tasks'));
     }
 
     /**

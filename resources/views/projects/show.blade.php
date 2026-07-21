@@ -33,8 +33,57 @@
 
                 <hr class="my-6">
 
-                <h3 class="font-semibold text-lg mb-4">Tasks</h3>
-                <p class="text-gray-500">Task list coming soon.</p>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-semibold text-lg">Tasks</h3>
+                    <a href="{{ route('projects.tasks.create', $project) }}" class="text-blue-600">+ Add Task</a>
+                </div>
+
+                {{-- Status filter --}}
+                <div class="mb-4 flex gap-3 text-sm">
+                    <a href="{{ route('projects.show', $project) }}"
+                       class="{{ request('status') ? 'text-gray-500' : 'font-semibold text-blue-600' }}">
+                        All
+                    </a>
+                    <a href="{{ route('projects.show', ['project' => $project, 'status' => 'pending']) }}"
+                       class="{{ request('status') === 'pending' ? 'font-semibold text-blue-600' : 'text-gray-500' }}">
+                        Pending
+                    </a>
+                    <a href="{{ route('projects.show', ['project' => $project, 'status' => 'in_progress']) }}"
+                       class="{{ request('status') === 'in_progress' ? 'font-semibold text-blue-600' : 'text-gray-500' }}">
+                        In Progress
+                    </a>
+                    <a href="{{ route('projects.show', ['project' => $project, 'status' => 'completed']) }}"
+                       class="{{ request('status') === 'completed' ? 'font-semibold text-blue-600' : 'text-gray-500' }}">
+                        Completed
+                    </a>
+                </div>
+
+                @forelse ($tasks as $task)
+                    <div class="border-b py-3 flex justify-between items-start">
+                        <div>
+                            <p class="font-medium">{{ $task->title }}</p>
+                            @if ($task->description)
+                                <p class="text-sm text-gray-600">{{ $task->description }}</p>
+                            @endif
+                            <p class="text-sm text-gray-500">
+                                Due: {{ $task->due_date->format('M d, Y') }}
+                                <span class="mx-1">&middot;</span>
+                                <span class="capitalize">{{ str_replace('_', ' ', $task->status) }}</span>
+                            </p>
+                        </div>
+                        <div class="flex gap-3 text-sm">
+                            <a href="{{ route('tasks.edit', $task) }}" class="text-yellow-600">Edit</a>
+                            <form method="POST" action="{{ route('tasks.destroy', $task) }}"
+                                  onsubmit="return confirm('Delete this task?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                @empty
+                    <p class="text-gray-500">No tasks yet.</p>
+                @endforelse
 
             </div>
         </div>

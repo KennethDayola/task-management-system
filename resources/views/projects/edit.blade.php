@@ -43,11 +43,6 @@
                         @enderror
                     </div>
 
-                    <div class="mb-6 rounded-md bg-gray-50 px-4 py-3 text-sm text-gray-500">
-                        Status: <span class="font-medium text-gray-700">{{ ucfirst($project->status) }}</span>
-                        <span class="block text-xs text-gray-400 mt-0.5">Automatically set based on task completion.</span>
-                    </div>
-
                     <div class="flex items-center justify-between pt-4 border-t border-gray-100">
                         <div class="flex items-center gap-4">
                             <button type="submit" class="btn-primary">Update Project</button>

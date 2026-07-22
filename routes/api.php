@@ -14,9 +14,16 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::apiResource('projects', ProjectController::class)->except(['create', 'edit']);
+    Route::apiResource('projects', ProjectController::class)
+    ->except(['create', 'edit'])
+    ->names('api.projects');
+
     Route::apiResource('projects.tasks', TaskController::class)
         ->only(['store'])
-        ->shallow();
-    Route::apiResource('tasks', TaskController::class)->only(['update', 'destroy']);
+        ->shallow()
+        ->names('api.tasks');
+
+    Route::apiResource('tasks', TaskController::class)
+        ->only(['update', 'destroy'])
+        ->names('api.tasks');
 });

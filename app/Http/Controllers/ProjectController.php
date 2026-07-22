@@ -14,9 +14,15 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Auth::user()->projects()->latest()->paginate(10);
+        $projects = Auth::user()->projects()->withCount('tasks')->latest()->paginate(10);
 
-        return view('projects.index', compact('projects'));
+        $stats = [
+            'total' => Auth::user()->projects()->count(),
+            'active' => Auth::user()->projects()->where('status', 'active')->count(),
+            'completed' => Auth::user()->projects()->where('status', 'completed')->count(),
+        ];
+
+        return view('projects.index', compact('projects', 'stats'));
     }
 
     /**

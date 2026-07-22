@@ -38,7 +38,10 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        Auth::user()->projects()->create($request->validated());
+        Auth::user()->projects()->create([
+            ...$request->validated(),
+            'status' => 'active',
+        ]);
 
         return redirect()->route('projects.index')
             ->with('success', 'Project created successfully.');
@@ -47,7 +50,7 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-   public function show(Project $project)
+    public function show(Project $project)
     {
         $this->authorize('view', $project);
 

@@ -31,7 +31,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-5">
+                    <div class="mb-6">
                         <label for="description" class="block font-medium text-sm text-gray-700 mb-1">
                             Description
                             <span class="text-gray-400 font-normal">(optional)</span>
@@ -43,13 +43,9 @@
                         @enderror
                     </div>
 
-                    <div class="mb-6">
-                        <label for="status" class="block font-medium text-sm text-gray-700 mb-1">Status</label>
-                        <select name="status" id="status"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-1">
-                            <option value="active" {{ old('status', $project->status) === 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="completed" {{ old('status', $project->status) === 'completed' ? 'selected' : '' }}>Completed</option>
-                        </select>
+                    <div class="mb-6 rounded-md bg-gray-50 px-4 py-3 text-sm text-gray-500">
+                        Status: <span class="font-medium text-gray-700">{{ ucfirst($project->status) }}</span>
+                        <span class="block text-xs text-gray-400 mt-0.5">Automatically set based on task completion.</span>
                     </div>
 
                     <div class="flex items-center justify-between pt-4 border-t border-gray-100">

@@ -27,6 +27,7 @@ class TaskController extends Controller
         $this->authorize('update', $project);
 
         $project->tasks()->create($request->validated());
+        $project->syncStatusFromTasks();
 
         return redirect()->route('projects.show', $project)
             ->with('success', 'Task created successfully.');
@@ -50,6 +51,7 @@ class TaskController extends Controller
         $this->authorize('update', $task);
 
         $task->update($request->validated());
+        $task->project->syncStatusFromTasks();
 
         return redirect()->route('projects.show', $task->project)
             ->with('success', 'Task updated successfully.');
@@ -64,6 +66,7 @@ class TaskController extends Controller
 
         $project = $task->project;
         $task->delete();
+        $project->syncStatusFromTasks();
 
         return redirect()->route('projects.show', $project)
             ->with('success', 'Task deleted successfully.');

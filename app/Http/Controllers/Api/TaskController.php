@@ -21,6 +21,7 @@ class TaskController extends Controller
         ]);
 
         $task = $project->tasks()->create($validated);
+        $project->syncStatusFromTasks();
 
         return response()->json($task, 201);
     }
@@ -37,6 +38,7 @@ class TaskController extends Controller
         ]);
 
         $task->update($validated);
+        $task->project->syncStatusFromTasks();
 
         return response()->json($task);
     }
@@ -45,7 +47,9 @@ class TaskController extends Controller
     {
         $this->authorize('delete', $task);
 
+        $project = $task->project;
         $task->delete();
+        $project->syncStatusFromTasks();
 
         return response()->json(null, 204);
     }

@@ -75,9 +75,15 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <span class="status-badge status-{{ $project->status }}">
-                                            {{ $project->status }}
-                                        </span>
+                                        @if ($project->tasks_count === 0)
+                                            <span class="status-badge" style="background-color:#f3f4f6; color:#9ca3af;">
+                                                No tasks yet
+                                            </span>
+                                        @else
+                                            <span class="status-badge status-{{ $project->status }}">
+                                                {{ $project->status }}
+                                            </span>
+                                        @endif
                                     </td>
                                     <td>
                                         @if ($project->tasks_count === 0)

@@ -31,7 +31,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-5">
+                    <div class="mb-6">
                         <label for="description" class="block font-medium text-sm text-gray-700 mb-1">
                             Description
                             <span class="text-gray-400 font-normal">(optional)</span>
@@ -42,16 +42,6 @@
                         @error('description')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
-
-                    <div class="mb-6">
-                        <label for="status" class="block font-medium text-sm text-gray-700 mb-1">Status</label>
-                        <select name="status" id="status"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-1">
-                            <option value="active" {{ old('status', 'active') === 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="completed" {{ old('status') === 'completed' ? 'selected' : '' }}>Completed</option>
-                        </select>
-                        <p class="text-xs text-gray-400 mt-1">You can change this later as work progresses.</p>
                     </div>
 
                     <div class="flex items-center gap-4 pt-4 border-t border-gray-100">

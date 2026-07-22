@@ -36,17 +36,23 @@
             @endif
 
             {{-- Overview card --}}
+            @php
+                $totalTasks = $project->tasks()->count();
+                $completedTasks = $project->tasks()->where('status', 'completed')->count();
+                $percentage = $project->completionPercentage();
+            @endphp
+
             <div class="card p-6">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <p class="text-gray-600">{{ $project->description ?: 'No description provided.' }}</p>
-                    <span class="status-badge status-{{ $project->status }} flex-shrink-0">{{ $project->status }}</span>
+                    @if ($totalTasks === 0)
+                        <span class="status-badge flex-shrink-0" style="background-color:#f3f4f6; color:#9ca3af;">
+                            No tasks yet
+                        </span>
+                    @else
+                        <span class="status-badge status-{{ $project->status }} flex-shrink-0">{{ $project->status }}</span>
+                    @endif
                 </div>
-
-                @php
-                    $totalTasks = $project->tasks()->count();
-                    $completedTasks = $project->tasks()->where('status', 'completed')->count();
-                    $percentage = $project->completionPercentage();
-                @endphp
 
                 <div class="mb-1.5 flex justify-between text-sm">
                     <span class="font-medium text-gray-700">{{ $completedTasks }} of {{ $totalTasks }} tasks completed</span>

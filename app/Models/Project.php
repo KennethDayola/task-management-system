@@ -40,4 +40,22 @@ class Project extends Model
 
         return (int) round(($completed / $total) * 100);
     }
+
+    public function syncStatusFromTasks(): void
+    {
+        $totalTasks = $this->tasks()->count();
+
+        if ($totalTasks === 0) {
+            return; // no tasks yet — leave status as-is (likely 'active' from creation)
+        }
+
+        $completedTasks = $this->tasks()->where('status', 'completed')->count();
+
+        $newStatus = ($completedTasks === $totalTasks) ? 'completed' : 'active';
+
+        if ($this->status !== $newStatus) {
+            $this->update(['status' => $newStatus]);
+        }
+    }
+
 }
